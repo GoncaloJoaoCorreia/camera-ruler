@@ -3,4 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_cleanStorage" android:title="@string/action_cleanStorage"
+        android:orderInCategory="1" app:showAsAction="never" />
+    <item android:id="@+id/action_choosePhoto" android:title="@string/action_choosePhoto"
+        android:orderInCategory="2" app:showAsAction="never" />
 </menu>
