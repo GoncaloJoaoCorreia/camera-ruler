@@ -46,6 +46,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class MainActivity extends ActionBarActivity implements InputDialog.InputDialogListener{
@@ -184,7 +185,9 @@ public class MainActivity extends ActionBarActivity implements InputDialog.Input
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode){
             case REQUEST_IMAGE_CAPTURE:
+                Log.i("LOG", "Got the activity result");
                 if(resultCode == RESULT_OK)
+                    Log.i("LOG", "calling pictureTaken()");
                         pictureTaken();
                 break;
             case REQUEST_SELECT_PHOTO:
@@ -195,13 +198,16 @@ public class MainActivity extends ActionBarActivity implements InputDialog.Input
                     pictureTaken();
                 }
                 break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
         }
-        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
 
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(null);
