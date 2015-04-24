@@ -2,21 +2,23 @@
 <resources>
 
     <string name="app_name">Camera Ruler</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="input_hint_units">Output unit</string>
     <string name="action_settings">Settings</string>
     <string name="action_cleanStorage">Delete stored photos</string>
-    <string name="input_hint">Scale value</string>
+    <string name="input_hint">Reference length and unit</string>
     <string name="setReferencePoints">Select reference points</string>
     <string name="setMeasurePoints">Select measurement points</string>
-    <string name="setScaleValue">Enter the scale value and press OK</string>
+    <string name="setScaleValue">Enter the reference length and press OK</string>
     <string name="setPicture">Take a photo</string>
     <string name="btn_cancel">Clear</string>
     <string name="error_noPoints">Please tap on the screen to select the points</string>
     <string name="error_noScale">Please enter the scale value</string>
     <string name="error_numberFormat">Please enter a decimal number</string>
-    <string name="result_lbl">Distance: </string>
+    <string name="result_lbl">Length: </string>
     <string name="btn_takePicture">Take Picture</string>
     <string name="action_choosePhoto">Choose existing photo</string>
-
+    <string name="storageDeleted">Photos deleted</string>
+    <string name="btn_selectScale">Select scale</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 
 </resources>

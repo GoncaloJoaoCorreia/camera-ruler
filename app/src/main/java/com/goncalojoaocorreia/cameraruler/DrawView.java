@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.view.MotionEvent;
@@ -47,6 +48,12 @@ public class DrawView extends SurfaceView {
             else paint.setColor(MEASURE_POINT_COLOR);
             Point p = circlePoints.get(i);
             canvas.drawCircle(p.x, p.y, 10, paint);
+            if(i == 1){
+                canvas.drawLine(circlePoints.get(0).x, circlePoints.get(0).y, circlePoints.get(1).x, circlePoints.get(1).y, paint);
+            }
+            if(i == 3){
+                canvas.drawLine(circlePoints.get(2).x, circlePoints.get(2).y, circlePoints.get(3).x, circlePoints.get(3).y, paint);
+            }
         }
     }
 
@@ -73,12 +80,12 @@ public class DrawView extends SurfaceView {
         invalidate();
     }
 
-    public double calculate(double scale){
+    public double calculate(double reference, int inputUnitIndex, int outputUnitIndex){
         if(circlePoints.size() != 4){
-            Toast.makeText(context, getResources().getString(R.string.error_noPoints), Toast.LENGTH_SHORT);
-            return 0;
+            Toast.makeText(context, getResources().getString(R.string.error_noPoints), Toast.LENGTH_SHORT).show();
+            return -1;
         }
-        return Ruler.compute(circlePoints, scale);
+        return Ruler.compute(circlePoints, reference, inputUnitIndex, outputUnitIndex);
     }
 
 

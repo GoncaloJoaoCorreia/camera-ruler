@@ -2,6 +2,8 @@ package com.goncalojoaocorreia.cameraruler;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,6 +18,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.internal.widget.AdapterViewCompat;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -33,25 +36,27 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements InputDialog.InputDialogListener{
 
     private DrawView drawView;
     private FrameLayout preview;
     private Button btn_ok;
     private Button btn_cancel;
     private Button btn_takePicture;
-    private EditText scaleTxt;
     private File photoFile;
+    private double result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +69,6 @@ public class MainActivity extends ActionBarActivity {
         btn_takePicture = (Button) findViewById(R.id.button_takePicture);
         btn_ok = (Button) findViewById(R.id.button_calculate);
         btn_cancel = (Button) findViewById(R.id.button_cancel);
-        scaleTxt = (EditText) findViewById(R.id.txt_scale);
 
         addPictureButton();
 
@@ -78,18 +82,7 @@ public class MainActivity extends ActionBarActivity {
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    double scale = Float.parseFloat(scaleTxt.getText().toString());
-                    double res = drawView.calculate(scale);
-                    DecimalFormat df = new DecimalFormat("#.00");
-                    String result = df.format(res);
-                    //Present result to user
-                    ((TextView) findViewById(R.id.info_lbl)).setText(getResources().getString(R.string.result_lbl) + result);
-                }catch(NumberFormatException ex){
-                    Toast.makeText(MainActivity.this,
-                            getResources().getString(R.string.error_numberFormat),
-                            Toast.LENGTH_SHORT).show();
-                }
+                new InputDialog().show(getFragmentManager(), "input_dialog");
             }
         });
 
@@ -97,9 +90,16 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 drawView.clearCanvas();
-                preview.removeAllViews();
             }
         });
+
+        //TODO
+//        btn_selectScale.setOnItemClickListener(new AdapterViewCompat.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View v) {
+//
+//            }
+//        });
     }
 
     @Override
@@ -116,17 +116,19 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+//            case R.id.action_settings:
+//                break;
+            case R.id.action_cleanStorage:
+                cleanPhotoStorage();
+                break;
+            case R.id.action_choosePhoto:
+                dispatchChoosePhotoIntent();
+                break;
+            case R.id.action_takePicture:
+                dispatchTakePictureIntent();
+                break;
         }
-        if(id == R.id.action_cleanStorage){
-            cleanPhotoStorage();
-        }
-        if(id == R.id.action_choosePhoto){
-            dispatchChoosePhotoIntent();
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -154,14 +156,14 @@ public class MainActivity extends ActionBarActivity {
     private void addPictureButton(){
         preview.removeAllViews();
 
-        scaleTxt.setVisibility(View.GONE);
         btn_cancel.setVisibility(View.GONE);
         btn_ok.setVisibility(View.GONE);
         btn_takePicture.setVisibility(View.VISIBLE);
     }
 
     private void pictureTaken(){
-        scaleTxt.setVisibility(View.VISIBLE);
+        preview.removeAllViews();
+
         btn_cancel.setVisibility(View.VISIBLE);
         btn_ok.setVisibility(View.VISIBLE);
         btn_takePicture.setVisibility(View.GONE);
@@ -184,19 +186,15 @@ public class MainActivity extends ActionBarActivity {
             case REQUEST_IMAGE_CAPTURE:
                 if(resultCode == RESULT_OK)
                         pictureTaken();
+                break;
             case REQUEST_SELECT_PHOTO:
                 if(resultCode == RESULT_OK){
-                    Uri _uri = data.getData();
-                    //User had pick an image.
-                    Cursor cursor = getContentResolver().query(_uri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
-                    cursor.moveToFirst();
-
-                    //Link to the image
-                    final String filePath = cursor.getString(0);
-                    cursor.close();
+                    Uri uri = data.getData();
+                    String filePath = Utils.getPath(this, uri);
                     photoFile = new File(filePath);
                     pictureTaken();
                 }
+                break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -207,13 +205,12 @@ public class MainActivity extends ActionBarActivity {
 
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(null);
-        File image = File.createTempFile(
+
+        return File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-
-        return image;
     }
 
     private void cleanPhotoStorage(){
@@ -225,6 +222,7 @@ public class MainActivity extends ActionBarActivity {
             if(pes.endsWith(".jpg"))
                 new File(fList[i].getAbsolutePath()).delete();
         }
+        Toast.makeText(this, getResources().getString(R.string.storageDeleted), Toast.LENGTH_SHORT).show();
     }
 
     private void dispatchChoosePhotoIntent(){
@@ -232,5 +230,31 @@ public class MainActivity extends ActionBarActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.action_choosePhoto)), REQUEST_SELECT_PHOTO);
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        int inputUnit = ((Spinner)dialog.getDialog().findViewById(R.id.input_unit_chooser)).getSelectedItemPosition();
+        int outputUnit = ((Spinner) dialog.getDialog().findViewById(R.id.output_unit_chooser)).getSelectedItemPosition();
+        try {
+            double reference = Double.parseDouble(((EditText) dialog.getDialog().findViewById(R.id.reference_input)).getText().toString());
+            result = drawView.calculate(reference, inputUnit, outputUnit);
+            showResult();
+        }catch(NumberFormatException ex){
+            Toast.makeText(this, getResources().getString(R.string.error_numberFormat), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        //Do absolutely nothing
+    }
+
+    private void showResult(){
+        if(result != -1) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getResources().getString(R.string.result_lbl) + result);
+            builder.create().show();
+        }
     }
 }

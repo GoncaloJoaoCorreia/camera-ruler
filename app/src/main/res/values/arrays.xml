@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Predefined scale values -->
+    <string-array name="units">
+        <item>Meters</item>
+        <item>Centimeters</item>
+        <item>Millimetres</item>
+        <item>Inch</item>
+        <item>Foot</item>
+        <item>Yard</item>
+    </string-array>
+
+
+</resources>

@@ -23,19 +23,9 @@
             android:id="@+id/info_lbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/setReferencePoints"
+            android:text="@string/setPicture"
             android:layout_centerVertical="true"
-            android:textSize="9pt"/>
-
-        <EditText
-            android:id="@+id/txt_scale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/button_calculate"
-            android:hint="@string/input_hint"/>
-
+            android:textSize="15pt"/>
 
         <Button
             android:id="@+id/button_calculate"
