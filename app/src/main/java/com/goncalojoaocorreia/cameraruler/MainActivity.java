@@ -249,8 +249,10 @@ public class MainActivity extends ActionBarActivity implements InputDialog.Input
 
     private void showResult(){
         if(result != -1) {
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(getResources().getString(R.string.result_lbl) + result);
+            builder.setMessage(getResources().getString(R.string.result_lbl) + decimalFormat.format(result));
             builder.create().show();
         }
     }
