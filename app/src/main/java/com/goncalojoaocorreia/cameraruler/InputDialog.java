@@ -20,13 +20,13 @@ public class InputDialog extends DialogFragment{
         //Inflate layout
         builder.setView(inflater.inflate(R.layout.dialog, null));
         //Set buttons
-        builder.setPositiveButton("Botao ok", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.btn_OK, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 listener.onDialogPositiveClick(InputDialog.this);
             }
         });
-        builder.setNegativeButton("Botao cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 listener.onDialogNegativeClick(InputDialog.this);

@@ -10,7 +10,7 @@
     <string name="setMeasurePoints">Select measurement points</string>
     <string name="setScaleValue">Enter the reference length and press OK</string>
     <string name="setPicture">Take a photo</string>
-    <string name="btn_cancel">Clear</string>
+    <string name="btn_clear">Clear</string>
     <string name="error_noPoints">Please tap on the screen to select the points</string>
     <string name="error_noScale">Please enter the scale value</string>
     <string name="error_numberFormat">Please enter a decimal number</string>
@@ -20,5 +20,7 @@
     <string name="storageDeleted">Photos deleted</string>
     <string name="btn_selectScale">Select scale</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="btn_OK">OK</string>
+    <string name="btn_cancel">Cancel</string>
 
 </resources>
