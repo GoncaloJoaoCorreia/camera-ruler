@@ -1,5 +1,6 @@
 # Camera Ruler
 Android app used to measure objects using a smartphone camera.
+[Project Page](https://goncalojoaocorreia.github.io/camera-ruler/)
 
 ## The goal, and how to use it
 This app was made as an alternative to time-consuming measurements by hand needed by professionals of various fields. 
@@ -8,6 +9,10 @@ It is not meant for exact measurements where you need millimetric precision, but
 It works using a reference size on the same plane as the object the user wants to measure. This way, the need for large measuring tapes is eliminated and one needs to carry only a small object of known size, and an Android smartphone.
 
 Convertions between length units is supported, and area measurement will be implemented in a later version.
+
+## Current versions
+
+[v1.0.0-beta](https://github.com/GoncaloJoaoCorreia/camera-ruler/releases/tag/v1.0-beta)
 
 ## Building instructions
 
