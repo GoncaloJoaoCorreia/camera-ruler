@@ -94,13 +94,6 @@ public class MainActivity extends ActionBarActivity implements InputDialog.Input
             }
         });
 
-        //TODO
-//        btn_selectScale.setOnItemClickListener(new AdapterViewCompat.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View v) {
-//
-//            }
-//        });
     }
 
     @Override
@@ -143,7 +136,7 @@ public class MainActivity extends ActionBarActivity implements InputDialog.Input
                 photoFile = createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                Log.e("FileIO", "Error occurred while creating the image File");
+                Toast.makeText(this, "Error creating image", Toast.LENGTH_SHORT);
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -185,9 +178,7 @@ public class MainActivity extends ActionBarActivity implements InputDialog.Input
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode){
             case REQUEST_IMAGE_CAPTURE:
-                Log.i("LOG", "Got the activity result");
                 if(resultCode == RESULT_OK)
-                    Log.i("LOG", "calling pictureTaken()");
                         pictureTaken();
                 break;
             case REQUEST_SELECT_PHOTO:

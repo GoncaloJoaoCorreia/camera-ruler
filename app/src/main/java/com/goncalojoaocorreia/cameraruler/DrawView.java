@@ -21,6 +21,10 @@ import java.util.List;
 /**
  * Created by Gonçalo on 13/02/2015.
  */
+
+/**
+ * Class used to draw the points on screen. Handles user touch input.
+ */
 public class DrawView extends SurfaceView {
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     List<Point> circlePoints;
@@ -74,12 +78,22 @@ public class DrawView extends SurfaceView {
         return false;
     }
 
+    /**
+     * Clears all drawn points and shapes
+     */
     public void clearCanvas(){
         circlePoints.clear();
         ((TextView) ((Activity)context).findViewById(R.id.info_lbl)).setText(getResources().getString(R.string.setPicture));
         invalidate();
     }
 
+    /**
+     * Calculates the measurement
+     * @param reference The reference size
+     * @param inputUnitIndex The input length unit index
+     * @param outputUnitIndex The output length unit index
+     * @return The value of the measurement, converted to outputUnitIndex
+     */
     public double calculate(double reference, int inputUnitIndex, int outputUnitIndex){
         if(circlePoints.size() != 4){
             Toast.makeText(context, getResources().getString(R.string.error_noPoints), Toast.LENGTH_SHORT).show();

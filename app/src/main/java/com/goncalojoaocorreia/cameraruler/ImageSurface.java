@@ -1,5 +1,6 @@
 package com.goncalojoaocorreia.cameraruler;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,10 @@ import java.io.File;
 
 /**
  * Created by Gonçalo on 13/02/2015.
+ */
+
+/**
+ * Class used to handle displaying the photo/image to the user.
  */
 public class ImageSurface extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -42,6 +47,7 @@ public class ImageSurface extends SurfaceView implements SurfaceHolder.Callback 
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
     }
 
+    @SuppressLint("WrongCall")
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Canvas canvas = null;
