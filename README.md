@@ -8,7 +8,7 @@ It is not meant for exact measurements where you need millimetric precision, but
 
 It works using a reference size on the same plane as the object the user wants to measure. This way, the need for large measuring tapes is eliminated and one needs to carry only a small object of known size, and an Android smartphone.
 
-Convertions between length units is supported, and area measurement will be implemented in a later version.
+Conversions between length units is supported, and area measurement will be implemented in a later version.
 
 ## Current versions
 
